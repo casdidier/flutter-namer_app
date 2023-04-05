@@ -167,15 +167,12 @@ class FavoritesPage extends StatelessWidget {
       );
     }
 
-    return ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Text('You have '
-              '${appState.favorites.length} favorites:'),
-        ),
-        for (var index = 0; index < appState.favorites.length - 1; index++)
-          ListTile(
+    return GridView.count(
+      crossAxisCount: 2,
+      children: List.generate(appState.favorites.length, (index) {
+        return Padding(
+          padding: EdgeInsets.all(8.0),
+          child: ListTile(
             leading: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
@@ -184,7 +181,8 @@ class FavoritesPage extends StatelessWidget {
             ),
             title: Text(appState.favorites[index].asLowerCase),
           ),
-      ],
+        );
+      }),
     );
   }
 }
