@@ -43,6 +43,11 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  void onDelete(index) {
+    favorites.removeAt(index);
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -169,10 +174,15 @@ class FavoritesPage extends StatelessWidget {
           child: Text('You have '
               '${appState.favorites.length} favorites:'),
         ),
-        for (var pair in appState.favorites)
+        for (var index = 0; index < appState.favorites.length - 1; index++)
           ListTile(
-            leading: Icon(Icons.favorite),
-            title: Text(pair.asLowerCase),
+            leading: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                context.read<MyAppState>().onDelete(index);
+              },
+            ),
+            title: Text(appState.favorites[index].asLowerCase),
           ),
       ],
     );
