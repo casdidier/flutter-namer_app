@@ -27,13 +27,18 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
+  var favorites = <WordPair>[];
+  var history = <WordPair>[];
 
   void getNext() {
     current = WordPair.random();
+    addToHistory(current);
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  void addToHistory(WordPair pair) {
+    history.insert(0, pair);
+  }
 
   void toggleFavorite() {
     if (favorites.contains(current)) {
@@ -63,11 +68,9 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        print('generatorPage');
         page = GeneratorPage();
         break;
       case 1:
-        print('Favorites Page');
         page = FavoritesPage();
         break;
       default:
@@ -129,6 +132,7 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          HistoryListView(),
           BigCard(pair: pair),
           SizedBox(height: 10),
           Row(
@@ -225,6 +229,38 @@ class BigCard extends StatelessWidget {
           semanticsLabel: "${pair.first} ${pair.second}",
         ),
       ),
+    );
+  }
+}
+
+class HistoryListView extends StatefulWidget {
+  const HistoryListView({Key? key}) : super(key: key);
+
+  @override
+  State<HistoryListView> createState() => _HistoryListViewState();
+}
+
+class _HistoryListViewState extends State<HistoryListView> {
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.watch<MyAppState>();
+
+    return Column(
+      children: [
+        Text('History'),
+        SizedBox(height: 10),
+        Container(
+          height: 200,
+          child: ListView.builder(
+            itemCount: appState.history.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(appState.history[index].asLowerCase),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
