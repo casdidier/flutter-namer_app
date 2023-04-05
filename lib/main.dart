@@ -169,9 +169,10 @@ class FavoritesPage extends StatelessWidget {
 
     return GridView.count(
       crossAxisCount: 2,
+      childAspectRatio: 300 / 80,
       children: List.generate(appState.favorites.length, (index) {
         return Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(2.0),
           child: ListTile(
             leading: IconButton(
               icon: Icon(Icons.delete),
