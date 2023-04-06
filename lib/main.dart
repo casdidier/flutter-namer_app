@@ -40,11 +40,12 @@ class MyAppState extends ChangeNotifier {
     history.insert(0, pair);
   }
 
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
+  void toggleFavorite([WordPair? pair]) {
+    pair = pair ?? current;
+    if (favorites.contains(pair)) {
+      favorites.remove(pair);
     } else {
-      favorites.add(current);
+      favorites.add(pair);
     }
     notifyListeners();
   }
@@ -254,8 +255,20 @@ class _HistoryListViewState extends State<HistoryListView> {
           child: ListView.builder(
             itemCount: appState.history.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(appState.history[index].asLowerCase),
+              final pair = appState.history[index];
+              return SizedBox(
+                child: TextButton.icon(
+                  onPressed: () {
+                    appState.toggleFavorite(pair);
+                  },
+                  icon: appState.favorites.contains(pair)
+                      ? Icon(Icons.favorite, size: 12)
+                      : SizedBox(),
+                  label: Text(
+                    pair.asLowerCase,
+                    semanticsLabel: pair.asPascalCase,
+                  ),
+                ),
               );
             },
           ),
