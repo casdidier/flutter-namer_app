@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart' as intl;
+import 'dart:developer' as developer;
 
 void main() {
   runApp(MyApp());
@@ -74,6 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 1:
         page = FavoritesPage();
         break;
+      case 2:
+        page = ProfilePage();
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -93,6 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.favorite),
                     label: Text('Favorites'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.person),
+                    label: Text('Profile'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -168,7 +177,7 @@ class FavoritesPage extends StatelessWidget {
 
     if (appState.favorites.isEmpty) {
       return Center(
-        child: Text('No favorites yet.'),
+        child: Text('No favorites yet...'),
       );
     }
 
@@ -201,6 +210,90 @@ class FavoritesPage extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  String name = "John Doe";
+  String phoneNumber = "1234567890";
+  String email = "john.doe@example.com";
+  String title = 'titre';
+  DateTime date = DateTime.now();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Profile"),
+      ),
+      body: ListView(
+        children: <Widget>[
+          // customListTile(Icons.person, "Name", name),
+          TextFormField(
+            decoration: const InputDecoration(
+              filled: true,
+              hintText: 'Enter your name...',
+              labelText: 'Name',
+            ),
+            onChanged: (value) {
+              setState(() {
+                title = value;
+              });
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              filled: true,
+              hintText: 'Enter your email...',
+              labelText: 'Email',
+            ),
+            onChanged: (value) {
+              setState(() {
+                email = value;
+              });
+            },
+          ),
+          _FormDatePicker(
+            date: date,
+            onChanged: (value) {
+              setState(() {
+                date = value;
+              });
+            },
+          ),
+
+          // customListTile(Icons.phone, "Phone Number", phoneNumber),
+          // customListTile(Icons.email, "Email", email),
+        ],
+      ),
+    );
+  }
+
+  Widget customListTile(IconData icon, String title, String subtitle) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () {
+          developer.log(
+            'log me',
+          );
+          // Implement your editing functionality here
+
+          setState(() {
+            developer.log(name);
+            name = name;
+          });
+        },
+      ),
     );
   }
 }
@@ -276,6 +369,63 @@ class _HistoryListViewState extends State<HistoryListView> {
             },
           ),
         ),
+      ],
+    );
+  }
+}
+
+class _FormDatePicker extends StatefulWidget {
+  final DateTime date;
+  final ValueChanged<DateTime> onChanged;
+
+  const _FormDatePicker({
+    required this.date,
+    required this.onChanged,
+  });
+
+  @override
+  State<_FormDatePicker> createState() => _FormDatePickerState();
+}
+
+class _FormDatePickerState extends State<_FormDatePicker> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              'Date',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              intl.DateFormat.yMd().format(widget.date),
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ],
+        ),
+        TextButton(
+          child: const Text('Edit'),
+          onPressed: () async {
+            var newDate = await showDatePicker(
+              context: context,
+              initialDate: widget.date,
+              firstDate: DateTime(1900),
+              lastDate: DateTime(2100),
+            );
+
+            // Don't change the date if the date picker returns null.
+            if (newDate == null) {
+              return;
+            }
+
+            widget.onChanged(newDate);
+          },
+        )
       ],
     );
   }
