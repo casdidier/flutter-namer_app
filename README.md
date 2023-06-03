@@ -27,4 +27,5 @@ samples, guidance on mobile development, and a full API reference.
 - [ ] add new page with a google map
   - [ ] add search fields
   - [ ] list recommandations places in a list
+  - [ ] display locations on map
 - add a chat page
