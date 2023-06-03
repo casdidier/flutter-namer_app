@@ -14,4 +14,17 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
 # flutter-namer_app
+
+# Playing around the App
+
+- [x] add a simple profile page
+  - [ ] conserve data when changing page
+  - [ ] add a place to add a picture
+- [ ] add a floating button on the bottom right to open a modal
+  - [ ] retrieve user info in the modal
+- [ ] add new page with a google map
+  - [ ] add search fields
+  - [ ] list recommandations places in a list
+- add a chat page
