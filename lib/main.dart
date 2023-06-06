@@ -13,8 +13,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
+    return ChangeNotifierProvider.value(
+      // create: (context) => MyAppState(),
+      value: MyAppState(), // Use ChangeNotifierProvider.value
       child: MaterialApp(
         title: 'Namer App',
         theme: ThemeData(
@@ -31,6 +32,12 @@ class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
   var favorites = <WordPair>[];
   var history = <WordPair>[];
+
+  var name = "John Doe";
+  var phoneNumber = "1234567890";
+  var email = "john.doe@example.com";
+  var title = 'titre';
+  var date = DateTime.now();
 
   void getNext() {
     current = WordPair.random();
@@ -54,6 +61,20 @@ class MyAppState extends ChangeNotifier {
 
   void onDelete(index) {
     favorites.removeAt(index);
+    notifyListeners();
+  }
+
+  void changeName(String value) {
+    developer.log(
+      name,
+    );
+    name = value;
+    developer.log(
+      'log me',
+    );
+    developer.log(
+      name,
+    );
     notifyListeners();
   }
 }
@@ -220,31 +241,37 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String name = "John Doe";
-  String phoneNumber = "1234567890";
-  String email = "john.doe@example.com";
-  String title = 'titre';
-  DateTime date = DateTime.now();
+  final TextEditingController _nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.text = context.read<MyAppState>().name;
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('build');
+    var appState = context.watch<MyAppState>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
       ),
       body: ListView(
         children: <Widget>[
-          // customListTile(Icons.person, "Name", name),
           TextFormField(
+            controller: _nameController,
             decoration: const InputDecoration(
               filled: true,
               hintText: 'Enter your name...',
               labelText: 'Name',
             ),
             onChanged: (value) {
-              setState(() {
-                title = value;
-              });
+              // setState(() {
+              //   appState.name = value;
+              // });
+              context.read<MyAppState>().changeName(value);
             },
           ),
           TextFormField(
@@ -255,44 +282,19 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             onChanged: (value) {
               setState(() {
-                email = value;
+                appState.email = value;
               });
             },
           ),
           _FormDatePicker(
-            date: date,
+            date: appState.date,
             onChanged: (value) {
               setState(() {
-                date = value;
+                appState.date = value;
               });
             },
           ),
-
-          // customListTile(Icons.phone, "Phone Number", phoneNumber),
-          // customListTile(Icons.email, "Email", email),
         ],
-      ),
-    );
-  }
-
-  Widget customListTile(IconData icon, String title, String subtitle) {
-    return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () {
-          developer.log(
-            'log me',
-          );
-          // Implement your editing functionality here
-
-          setState(() {
-            developer.log(name);
-            name = name;
-          });
-        },
       ),
     );
   }

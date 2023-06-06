@@ -20,7 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 # Playing around the App
 
 - [x] add a simple profile page
-  - [ ] conserve data when changing page
+  - [x] conserve data when changing page
   - [ ] add a place to add a picture
 - [ ] add a floating button on the bottom right to open a modal
   - [ ] retrieve user info in the modal
