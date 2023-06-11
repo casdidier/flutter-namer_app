@@ -29,3 +29,4 @@ samples, guidance on mobile development, and a full API reference.
   - [ ] list recommandations places in a list
   - [ ] display locations on map
 - add a chat page
+- add animation on a button
