@@ -22,8 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 - [x] add a simple profile page
   - [x] conserve data when changing page
   - [x] add a place to add a picture
-- [ ] add a floating button on the bottom right to open a modal
-  - [ ] retrieve user info in the modal
+- [x] add a floating button on the bottom right to open a modal
+  - [x] retrieve user info in the modal
 - [ ] add new page with a google map
   - [ ] add search fields
   - [ ] list recommandations places in a list

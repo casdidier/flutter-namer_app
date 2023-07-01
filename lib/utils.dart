@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as intl;
 import 'dart:developer' as developer;
-import 'dart:io';
 
-Future<void> dialogBuilder(BuildContext context) {
-  return showDialog<void>(
+Future<void> dialogBuilder(BuildContext context, String name) async {
+  await showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Basic dialog title'),
-        content: const Text(
-          'A dialog is a type of modal window that\n'
-          'appears in front of app content to\n'
-          'provide critical information, or prompt\n'
-          'for a decision to be made.',
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(
+              'Hello $name,',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'A dialog is a type of modal window that\n'
+              'appears in front of app content to\n'
+              'provide critical information, or prompt\n'
+              'for a decision to be made.',
+            ),
+          ],
         ),
         actions: <Widget>[
           TextButton(

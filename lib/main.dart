@@ -313,7 +313,8 @@ class _ProfilePageState extends State<ProfilePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => dialogBuilder(context),
+          onPressed: () =>
+              dialogBuilder(context, context.read<MyAppState>().name),
           backgroundColor: Colors.redAccent,
           child: const Icon(Icons.add_rounded),
         ));
