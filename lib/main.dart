@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart' as intl;
 import 'dart:developer' as developer;
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() {
   runApp(MyApp());
@@ -243,6 +245,9 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _nameController = TextEditingController();
 
+  ImagePicker picker = ImagePicker();
+  XFile? image;
+
   @override
   void initState() {
     super.initState();
@@ -294,6 +299,15 @@ class _ProfilePageState extends State<ProfilePage> {
               });
             },
           ),
+          ElevatedButton(
+              onPressed: () async {
+                image = await picker.pickImage(source: ImageSource.gallery);
+                setState(() {
+                  //update UI
+                });
+              },
+              child: Text("Pick Image")),
+          image == null ? Container() : Image.file(File(image!.path))
         ],
       ),
     );
@@ -427,7 +441,7 @@ class _FormDatePickerState extends State<_FormDatePicker> {
 
             widget.onChanged(newDate);
           },
-        )
+        ),
       ],
     );
   }
