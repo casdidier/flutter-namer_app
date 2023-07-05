@@ -24,6 +24,7 @@ samples, guidance on mobile development, and a full API reference.
   - [x] add a place to add a picture
 - [x] add a floating button on the bottom right to open a modal
   - [x] retrieve user info in the modal
+- [x] refactor: move profile page out of main.dart
 - [ ] add new page with a google map
   - [ ] add search fields
   - [ ] list recommandations places in a list
