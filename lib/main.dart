@@ -10,7 +10,10 @@ import '../pages/profile/profile.dart';
 import '../pages/favorites/favorites.dart';
 import '../pages/home/home.dart';
 
-void main() {
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
+Future main() async {
+  await dotenv.load(fileName: "dev.env");
   runApp(MyApp());
 }
 
@@ -38,6 +41,7 @@ class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
   var favorites = <WordPair>[];
   var history = <WordPair>[];
+  var apiKey = dotenv.env['GOOGLE_MAPS_API_KEY'];
 
   var name = "John Doe";
   var phoneNumber = "1234567890";
@@ -78,9 +82,8 @@ class MyAppState extends ChangeNotifier {
     developer.log(
       'log me again',
     );
-    developer.log(
-      name,
-    );
+
+    developer.log(apiKey ?? 'no key');
     notifyListeners();
   }
 }
