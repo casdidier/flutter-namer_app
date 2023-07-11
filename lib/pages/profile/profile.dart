@@ -44,60 +44,63 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text("Profile"),
       ),
-      // body: ListView(
-      //   children: <Widget>[
-      //     TextFormField(
-      //       controller: _nameController,
-      //       decoration: const InputDecoration(
-      //         filled: true,
-      //         hintText: 'Enter your name...',
-      //         labelText: 'Name',
-      //       ),
-      //       onChanged: (value) {
-      //         // setState(() {
-      //         //   appState.name = value;
-      //         // });
-      //         context.read<MyAppState>().changeName(value);
-      //       },
-      //     ),
-      //     TextFormField(
-      //       decoration: const InputDecoration(
-      //         filled: true,
-      //         hintText: 'Enter your email...',
-      //         labelText: 'Email',
-      //       ),
-      //       onChanged: (value) {
-      //         setState(() {
-      //           appState.email = value;
-      //         });
-      //       },
-      //     ),
-      //     _FormDatePicker(
-      //       date: appState.date,
-      //       onChanged: (value) {
-      //         setState(() {
-      //           appState.date = value;
-      //         });
-      //       },
-      //     ),
-      //     ElevatedButton(
-      //         onPressed: () async {
-      //           image = await picker.pickImage(source: ImageSource.gallery);
-      //           setState(() {
-      //             //update UI
-      //           });
-      //         },
-      //         child: Text("Pick Image")),
-      //     image == null ? Container() : Image.file(File(image!.path)),
-
-      //   ],
-      // ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 11.0,
-        ),
+      body: ListView(
+        children: <Widget>[
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(
+              filled: true,
+              hintText: 'Enter your name...',
+              labelText: 'Name',
+            ),
+            onChanged: (value) {
+              // setState(() {
+              //   appState.name = value;
+              // });
+              context.read<MyAppState>().changeName(value);
+            },
+          ),
+          TextFormField(
+            decoration: const InputDecoration(
+              filled: true,
+              hintText: 'Enter your email...',
+              labelText: 'Email',
+            ),
+            onChanged: (value) {
+              setState(() {
+                appState.email = value;
+              });
+            },
+          ),
+          _FormDatePicker(
+            date: appState.date,
+            onChanged: (value) {
+              setState(() {
+                appState.date = value;
+              });
+            },
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              image = await picker.pickImage(source: ImageSource.gallery);
+              setState(() {
+                //update UI
+              });
+            },
+            child: Text("Pick Image"),
+          ),
+          image == null ? Container() : Image.file(File(image!.path)),
+          SizedBox(
+            height: 200, // Adjust the height as needed
+            child: GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: CameraPosition(
+                target: _center,
+                zoom: 11.0,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
